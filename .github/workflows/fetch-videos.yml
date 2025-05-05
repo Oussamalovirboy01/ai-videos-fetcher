@@ -1,0 +1,27 @@
+name: AI Video Fetcher
+
+on:
+  schedule:
+    - cron: '*/3 * * * *'  # Every 3 minutes
+  workflow_dispatch:
+
+jobs:
+  fetch-videos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm install axios firebase-admin
+      
+      - name: Run video fetcher
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node fetch-videos.js
