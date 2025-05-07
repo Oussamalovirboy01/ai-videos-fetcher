@@ -1,14 +1,15 @@
-name: AI Video Fetcher
+name: AI Video Fetcher (Daily at 6PM Morocco Time)
 
 on:
   schedule:
-    - cron: '*/3 * * * *'  # Every 3 minutes
+    # تشغيل يوميًا في الساعة 17:00 UTC (التي توافق 18:00 بتوقيت المغرب في الصيف و18:00 بتوقيت المغرب في الشتاء)
+    - cron: '0 17 * * *'
   workflow_dispatch:
 
 jobs:
   fetch-videos:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15  # زيادة الوقت لأن العملية قد تستغرق وقتًا أطول عند جلب 40 فيديو
     
     steps:
       - uses: actions/checkout@v3
@@ -19,9 +20,10 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        run: npm install axios firebase-admin
+        run: npm install axios firebase-admin date-fns
       
-      - name: Run video fetcher
+      - name: Run daily video fetcher
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}  # مفتاح API الجديد
         run: node fetch-videos.js
