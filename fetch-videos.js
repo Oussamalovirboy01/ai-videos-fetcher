@@ -6,7 +6,7 @@ const { format } = require('date-fns');
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const MAX_DAILY_VIDEOS = 40;
 const TARGET_HOUR = 18; // 6 PM Morocco Time
-const REQUEST_DELAY = 2000; // 1.5 seconds delay
+const REQUEST_DELAY = 2000; // 2 seconds delay
 
 // Discord Webhook
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
